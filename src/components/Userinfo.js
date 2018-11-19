@@ -8,8 +8,11 @@ class Userinfo extends Component {
     this.state = {
       items : [],
       isLoaded : false,
+      showIt : false
     }
   }
+
+
 
   componentDidMount(){
     fetch('https://api.github.com/users/' + this.props.user +'/repos')
@@ -19,7 +22,15 @@ class Userinfo extends Component {
       this.setState({
         isLoaded: true,
         items: json,
+        showIt: false
       })
+    })
+  this.onClick =this.onClick.bind(this);
+  }
+  onClick(e){
+    e.preventDefault()
+    this.setState({
+    showIt : true
     })
   }
 
@@ -39,30 +50,35 @@ class Userinfo extends Component {
         <div className="main_home">
                  Data has been loaded
                  <div class="topnav" id="myTopnav">
-                    <a class="active" href="#home">Home </a>
-                    <a href="#news">News </a>
-                    <a href="#contact">Contact </a>
-                    <a href="#about">About </a>
+                        <a class="active" href="#Overview">Overview</a>
+                        <a href="#Repositories">Repositories </a>
+                        <a href="#Stars" onClick={this.onClick}> Stars </a>
+                        <a href="#Followers">Followers </a>
+                        <a href="#Following">Following </a>
                 </div>
 
-                <div id="news">
-                 <ul>
-                    {items.map(item => (
-                         <li key={item.id} >
-                          {item.name}
-                         </li>
-                      ))}
-                 </ul>
+                <div id="Overview">
+                       <ul>
+                          {items.map(item => (
+                               <li key={item.id} >
+                                {item.name}
+                               </li>
+                            ))}
+                       </ul>
                  </div>
+                  <div id="Repositories">
+                         <ul>
+                             <li> Detailed info about Repositories </li>
+                         </ul>
+                  </div>
 
-
-                 <div id="contact">
-                  <ul>
-                    <li>priyanka</li>
-                    <li>pd</li>
-                    <li>pdey</li>
-                    <li>pdee</li>
-                  </ul>
+                  <div id="Stars" style={{display : this.state.showIt ? 'block':'none'}}>
+                          <ul>
+                              <li>priyanka</li>
+                              <li>pd</li>
+                              <li>pdey</li>
+                              <li>pdee</li>
+                          </ul>
                   </div>
         </div>
       )
